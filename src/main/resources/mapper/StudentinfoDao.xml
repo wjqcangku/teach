@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wjq.dao.StudentinfoDao">
+
+    <resultMap type="com.wjq.entity.Studentinfo" id="StudentinfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="sname" column="sname" jdbcType="VARCHAR"/>
+        <result property="sno" column="sno" jdbcType="VARCHAR"/>
+        <result property="stugrade" column="stugrade" jdbcType="VARCHAR"/>
+        <result property="stuclass" column="stuclass" jdbcType="VARCHAR"/>
+        <result property="biogenicland" column="biogenicland" jdbcType="VARCHAR"/>
+        <result property="sqq" column="sqq" jdbcType="VARCHAR"/>
+        <result property="sphone" column="sphone" jdbcType="VARCHAR"/>
+        <result property="stustatus" column="stustatus" jdbcType="VARCHAR"/>
+        <result property="sdate" column="sdate" jdbcType="TIMESTAMP"/>
+        <result property="slastdate" column="slastdate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="StudentinfoMap">
+        select
+          id, sname,ssex,sage,sdestination,sno, stugrade, stuclass, biogenicland, sqq, sphone, stustatus, sdate, slastdate
+        from teach.studentinfo
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="StudentinfoMap">
+        select
+          id, sname, sno, stugrade, stuclass, biogenicland, sqq, sphone, stustatus, sdate, slastdate
+        from teach.studentinfo
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="StudentinfoMap">
+        select
+          id, sname, sno, stugrade, stuclass, biogenicland, sqq, sphone, stustatus, sdate, slastdate
+        from teach.studentinfo
+        <where>
+            stustatus != '4'
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="sname != null and sname != ''">
+                and sname = #{sname}
+            </if>
+            <if test="sno != null and sno != ''">
+                and sno = #{sno}
+            </if>
+            <if test="stugrade != null and stugrade != ''">
+                and stugrade = #{stugrade}
+            </if>
+            <if test="stuclass != null and stuclass != ''">
+                and stuclass = #{stuclass}
+            </if>
+            <if test="biogenicland != null and biogenicland != ''">
+                and biogenicland = #{biogenicland}
+            </if>
+            <if test="sqq != null and sqq != ''">
+                and sqq = #{sqq}
+            </if>
+            <if test="sphone != null and sphone != ''">
+                and sphone = #{sphone}
+            </if>
+            <if test="stustatus != null and stustatus != ''">
+                and stustatus = #{stustatus}
+            </if>
+            <if test="sdate != null">
+                and sdate = #{sdate}
+            </if>
+            <if test="slastdate != null">
+                and slastdate = #{slastdate}
+            </if>
+
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into teach.studentinfo(sname, sno, stugrade, stuclass, biogenicland, sqq, sphone, stustatus, sdate, slastdate)
+        values (#{sname}, #{sno}, #{stugrade}, #{stuclass}, #{biogenicland}, #{sqq}, #{sphone}, #{stustatus}, #{sdate}, #{slastdate})
+    </insert>
+
+    <!--新增所有列-->
+    <insert id="insertgra" keyProperty="id" useGeneratedKeys="true">
+        insert into teach.graduation(gname, gsex,gage, gphone, glength, gdetination, glastdate, stus, oid)
+        values (#{gname}, #{gsex},#{gage}, #{gphone}, #{glength}, #{gdetination}, #{glastdate}, #{stus}, #{oid})
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update teach.studentinfo
+        <set>
+            <if test="sname != null and sname != ''">
+                sname = #{sname},
+            </if>
+            <if test="sdestination != null and sdestination != ''">
+                sdestination = #{sdestination},
+            </if>
+            <if test="sno != null and sno != ''">
+                sno = #{sno},
+            </if>
+            <if test="ssex != null and ssex != ''">
+                ssex = #{ssex},
+            </if>
+            <if test="sage != null and sage != ''">
+                sage = #{sage},
+            </if>
+            <if test="stugrade != null and stugrade != ''">
+                stugrade = #{stugrade},
+            </if>
+            <if test="stuclass != null and stuclass != ''">
+                stuclass = #{stuclass},
+            </if>
+            <if test="biogenicland != null and biogenicland != ''">
+                biogenicland = #{biogenicland},
+            </if>
+            <if test="sqq != null and sqq != ''">
+                sqq = #{sqq},
+            </if>
+            <if test="sphone != null and sphone != ''">
+                sphone = #{sphone},
+            </if>
+            <if test="stustatus != null and stustatus != ''">
+                stustatus = #{stustatus},
+            </if>
+            <if test="sdate != null">
+                sdate = #{sdate},
+            </if>
+            <if test="slastdate != null">
+                slastdate = #{slastdate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from teach.studentinfo where id = #{id}
+    </delete>
+
+</mapper>

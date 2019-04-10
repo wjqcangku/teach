@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wjq.dao.SclassDao">
+
+    <resultMap type="com.wjq.entity.Sclass" id="SclassMap">
+        <result property="scid" column="scid" jdbcType="INTEGER"/>
+        <result property="sccollege" column="sccollege" jdbcType="VARCHAR"/>
+        <result property="scname" column="scname" jdbcType="VARCHAR"/>
+        <result property="scno" column="scno" jdbcType="VARCHAR"/>
+        <result property="scpeople" column="scpeople" jdbcType="VARCHAR"/>
+        <result property="scprofile" column="scprofile" jdbcType="VARCHAR"/>
+        <result property="sclastdate" column="sclastdate" jdbcType="TIMESTAMP"/>
+        <result property="sid" column="sid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SclassMap">
+        select
+          scid, sccollege, scname, scno, scpeople, scprofile, sclastdate, sid
+        from teach.sclass
+        where scid = #{scid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SclassMap">
+        select
+          scid, sccollege, scname, scno, scpeople, scprofile, sclastdate, sid
+        from teach.sclass
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SclassMap">
+        select
+          scid, sccollege, scname, scno, scpeople, scprofile, sclastdate, sid
+        from teach.sclass
+        <where>
+            <if test="scid != null">
+                and scid = #{scid}
+            </if>
+            <if test="sccollege != null and sccollege != ''">
+                and sccollege = #{sccollege}
+            </if>
+            <if test="scname != null and scname != ''">
+                and scname = #{scname}
+            </if>
+            <if test="scno != null and scno != ''">
+                and scno = #{scno}
+            </if>
+            <if test="scpeople != null and scpeople != ''">
+                and scpeople = #{scpeople}
+            </if>
+            <if test="scprofile != null and scprofile != ''">
+                and scprofile = #{scprofile}
+            </if>
+            <if test="sclastdate != null">
+                and sclastdate = #{sclastdate}
+            </if>
+            <if test="sid != null and sid != ''">
+                and sid = #{sid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="scid" useGeneratedKeys="true">
+        insert into teach.sclass(sccollege, scname, scno, scpeople, scprofile, sclastdate, sid)
+        values (#{sccollege}, #{scname}, #{scno}, #{scpeople}, #{scprofile}, #{sclastdate}, #{sid})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update teach.sclass
+        <set>
+            <if test="sccollege != null and sccollege != ''">
+                sccollege = #{sccollege},
+            </if>
+            <if test="scname != null and scname != ''">
+                scname = #{scname},
+            </if>
+            <if test="scno != null and scno != ''">
+                scno = #{scno},
+            </if>
+            <if test="scpeople != null and scpeople != ''">
+                scpeople = #{scpeople},
+            </if>
+            <if test="scprofile != null and scprofile != ''">
+                scprofile = #{scprofile},
+            </if>
+            <if test="sclastdate != null">
+                sclastdate = #{sclastdate},
+            </if>
+            <if test="sid != null and sid != ''">
+                sid = #{sid},
+            </if>
+        </set>
+        where scid = #{scid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from teach.sclass where scid = #{scid}
+    </delete>
+
+    <select id="selectCount" resultType="Integer" >
+
+        select count(scid) from sclass
+        <where>
+            <trim prefix="set" suffixOverrides=","></trim>
+
+            <if test="scname != null and scname !=''">scname=#{scname},</if>
+            <if test="scno != null and scno !=''">scno=#{scno},</if>
+
+        </where>
+
+
+    </select>
+
+    <insert id="createSc" parameterType="com.wjq.entity.Sclass" keyProperty="scid" useGeneratedKeys="true">
+        insert into sclass
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sid != null and sid !=''">
+                sid,
+            </if>
+            <if test="scname != null and scname !=''">
+                scname,
+            </if>
+            <if test="sccollege != null and sccollege !=''">
+                sccollege,
+            </if>
+            <if test="scno != null and scno !=''">
+                scno,
+            </if>
+            <if test="scpeople != null and scpeople !=''">
+                scpeople,
+            </if>
+            <if test="sclastdate != null">
+                sclastdate,
+            </if>
+            <if test="scprofile != null and scprofile !=''">
+                scprofile
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="sid != null and sid !=''">
+                #{scid,jdbcType=VARCHAR},
+            </if>
+            <if test="scname != null and scname !=''">
+                #{scname,jdbcType=VARCHAR},
+            </if>
+            <if test="sccollege != null and sccollege !=''">
+                #{sccollege,jdbcType=VARCHAR},
+            </if>
+            <if test="scno != null and scno !=''">
+                #{scno,jdbcType=VARCHAR},
+            </if>
+            <if test="scpeople != null and scpeople !=''">
+                #{scpeople,jdbcType=VARCHAR},
+            </if>
+            <if test="sclastdate != null">
+                #{sclastdate,jdbcType=VARCHAR},
+            </if>
+            <if test="scprofile != null and scprofile !=''">
+                #{scprofile,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+
+    <delete id="deleteSc" parameterType="String">
+        delete from sclass
+        <where>
+            <!--<if test="scid != null and scid !=''">-->
+            scid=#{scid}
+            <!--</if>-->
+        </where>
+    </delete>
+
+
+    <select id="listPage" resultType="com.wjq.entity.Sclass">
+
+        select *from sclass
+        <where>
+            <trim prefix="set" suffixOverrides=","></trim>
+
+            <if test="scname != null and scname !=''">scname=#{scname},</if>
+            <if test="scno != null and scno !=''">scno=#{scno},</if>
+
+        </where>
+
+
+    </select>
+
+
+
+    <select id="selectById"  parameterType="String" resultType="com.wjq.entity.Sclass" >
+select *from sclass  where scid=#{scid}
+</select>
+    <update id="editSc"  parameterType="com.wjq.entity.Sclass">
+
+        update sclass  set
+        <if test="scname != null and scname !=''">
+            scname=#{scname,jdbcType=VARCHAR},
+        </if>
+        <if test="scno != null and scno !=''">
+            scno=#{scno,jdbcType=VARCHAR},
+        </if>
+        <if test="sclastdate != null and sclastdate !=''">
+            sclastdate=#{sclastdate,jdbcType=VARCHAR},
+        </if>
+        <if test="sccollege != null and sccollege !=''">
+            sccollege=#{sccollege,jdbcType=VARCHAR},
+        </if>
+        <if test="scpeople != null and scpeople !=''">
+            scpeople=#{scpeople,jdbcType=VARCHAR},
+        </if>
+        <if test="scprofile != null and scprofile !=''">
+            scprofile=#{scprofile,jdbcType=VARCHAR}
+        </if>
+        <where>scid=#{scid}</where>
+
+
+    </update>
+
+
+</mapper>

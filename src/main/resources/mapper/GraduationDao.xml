@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wjq.dao.GraduationDao">
+
+    <resultMap type="com.wjq.entity.Graduation" id="GraduationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="gname" column="gname" jdbcType="VARCHAR"/>
+        <result property="gsex" column="gsex" jdbcType="VARCHAR"/>
+        <result property="gphone" column="gphone" jdbcType="VARCHAR"/>
+        <result property="glength" column="glength" jdbcType="VARCHAR"/>
+        <result property="gdetination" column="gdetination" jdbcType="VARCHAR"/>
+        <result property="glastdate" column="glastdate" jdbcType="TIMESTAMP"/>
+        <result property="stus" column="stus" jdbcType="INTEGER"/>
+        <result property="oid" column="oid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GraduationMap">
+        select
+          id, gname, gage,gsex, gphone, glength, gdetination, glastdate, stus, oid
+        from teach.graduation
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GraduationMap">
+        select
+          id, gname, gsex, gphone, glength, gdetination, glastdate, stus, oid
+        from teach.graduation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GraduationMap">
+        select
+          id, gname, gsex,gage, gphone, glength, gdetination, glastdate, stus, oid
+        from teach.graduation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="gname != null and gname != ''">
+                and gname = #{gname}
+            </if>
+            <if test="gsex != null and gsex != ''">
+                and gsex = #{gsex}
+            </if>
+            <if test="gage != null and gage != ''">
+                and gage = #{gage}
+            </if>
+            <if test="gphone != null and gphone != ''">
+                and gphone = #{gphone}
+            </if>
+            <if test="glength != null and glength != ''">
+                and glength = #{glength}
+            </if>
+            <if test="gdetination != null and gdetination != ''">
+                and gdetination = #{gdetination}
+            </if>
+            <if test="glastdate != null">
+                and glastdate = #{glastdate}
+            </if>
+            <if test="stus != null">
+                and stus = #{stus}
+            </if>
+            <if test="oid != null">
+                and oid = #{oid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into teach.graduation(gname, gsex, gphone, glength, gdetination, glastdate, stus, oid)
+        values (#{gname}, #{gsex}, #{gphone}, #{glength}, #{gdetination}, #{glastdate}, #{stus}, #{oid})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update teach.graduation
+        <set>
+            <if test="gname != null and gname != ''">
+                gname = #{gname},
+            </if>
+            <if test="gsex != null and gsex != ''">
+                gsex = #{gsex},
+            </if>
+            <if test="gage != null and gage != ''">
+                gage = #{gage},
+            </if>
+            <if test="gphone != null and gphone != ''">
+                gphone = #{gphone},
+            </if>
+            <if test="glength != null and glength != ''">
+                glength = #{glength},
+            </if>
+            <if test="gdetination != null and gdetination != ''">
+                gdetination = #{gdetination},
+            </if>
+            <if test="glastdate != null">
+                glastdate = #{glastdate},
+            </if>
+            <if test="stus != null">
+                stus = #{stus},
+            </if>
+            <if test="oid != null">
+                oid = #{oid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from teach.graduation where id = #{id}
+    </delete>
+
+</mapper>

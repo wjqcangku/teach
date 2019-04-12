@@ -74,7 +74,7 @@ public class CurriculumController {
         }else{
             map.put("message",false);
         }
-        
+
         return map;
 
 
